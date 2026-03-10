@@ -1,58 +1,64 @@
 {
-  "round": 2,
-  "passed": true,
-  "summary": "所有上轮问题已确认修复。NoteService 的 @Transactional 未指定 rollbackFor，存在受检异常不回滚的隐患，但该类不抛出受检异常，实际运行无数据安全问题，记为 LOW。无 CRITICAL 或 HIGH 问题。",
+  "reviewer": "code-reviewer",
+  "timestamp": "2026-03-10T10:00:00",
+  "result": "PASS_WITH_WARNINGS",
   "issues": [
     {
-      "file": "knowledge-backend/src/main/java/com/knowledge/service/NoteService.java",
-      "line": 59,
-      "severity": "LOW",
-      "description": "@Transactional 未指定 rollbackFor = Exception.class，与 CategoryService / TagService 的写法不一致。若未来方法抛出受检异常，事务不会回滚。当前代码仅抛 BusinessException（继承 RuntimeException），实际无风险。",
-      "suggestion": "与同项目其他 Service 保持一致，改为 @Transactional(rollbackFor = Exception.class)"
+      "severity": "MAJOR",
+      "file": "knowledge-backend/src/main/java/com/knowledge/service/FileService.java",
+      "line": 128,
+      "description": "uploadFile 使用 file.getContentType() 作为存储的 mimeType，而非从已校验的 EXTENSION_MIME_MAP 取值。攻击者可构造请求将 content-type 设置为 text/html，导致下载时浏览器内联渲染 HTML 文件，存在存储型 XSS 风险（对于 text/html 类型文件，浏览器可能直接渲染而非下载）。",
+      "suggestion": "将 entity.setMimeType(file.getContentType()) 替换为 entity.setMimeType(EXTENSION_MIME_MAP.getOrDefault(ext, \"application/octet-stream\"))，始终使用服务端校验后的 MIME 类型，而非依赖客户端上报值。"
     },
     {
-      "file": "knowledge-backend/src/main/java/com/knowledge/service/NoteService.java",
-      "line": 171,
-      "severity": "LOW",
-      "description": "generateSummary 直接截取 Markdown 原始文本的前 100 个字符作为摘要，会把 Markdown 语法符号（如 ##、**、[]()）暴露在摘要中，展示给用户时不够友好。",
-      "suggestion": "截取前先用正则去除 Markdown 标记符号，或使用纯文本解析器提取摘要。"
+      "severity": "MAJOR",
+      "file": "knowledge-backend/src/main/java/com/knowledge/service/FileService.java",
+      "line": 263,
+      "description": "checkDiskSpace() 使用 Files.walk() 遍历整个上传目录以统计用量。若目录下存在大量文件（数千或更多），该操作将在每次上传请求时执行完整目录遍历，成为明显的性能瓶颈，且在高并发下可能产生竞态条件（多个并发上传可能同时通过检查但合计超出限额）。",
+      "suggestion": "改为在数据库中维护累计文件大小字段或独立的 disk_usage 统计表，每次上传/删除时原子性更新，避免每次上传均进行磁盘全量扫描。"
     },
     {
-      "file": "knowledge-backend/src/main/java/com/knowledge/config/CorsConfig.java",
-      "line": 15,
-      "severity": "LOW",
-      "description": "CORS 的 allowedOrigin 硬编码为 http://localhost:5173，生产环境无法复用，需要改为配置项。",
-      "suggestion": "从 application.yml 读取 cors.allowed-origin 属性，由 prod 和 dev 配置文件分别设值。"
+      "severity": "MINOR",
+      "file": "knowledge-backend/src/main/java/com/knowledge/service/FileService.java",
+      "line": 139,
+      "description": "@Transactional 方法 uploadFile 在事务提交前（步骤 10）将文件写入磁盘（fileStorageService.store()）。若磁盘写入成功但后续 @Transactional 提交因网络等原因失败（小概率），将出现磁盘有文件但数据库无记录的孤立文件。注释中虽提到 IOException 触发回滚，但实际上 IOException 是受检异常，Spring 默认不回滚受检异常，需要显式配置 rollbackFor。",
+      "suggestion": "在 @Transactional 注解上增加 rollbackFor = Exception.class，或改为 @Transactional(rollbackFor = IOException.class)，确保磁盘写入异常也能触发数据库回滚，避免数据不一致。"
+    },
+    {
+      "severity": "MINOR",
+      "file": "knowledge-backend/src/main/java/com/knowledge/service/FileService.java",
+      "line": 164,
+      "description": "listFiles 方法中对每个分页结果项逐一查询标签（fileTagMapper.selectTagsByFileId），page size 最大为 100，将触发最多 100 次额外 SQL 查询（N+1 查询模式）。",
+      "suggestion": "改为通过一次 IN 查询批量加载当前页所有文件的标签，例如：先收集当前页所有 fileId，再用 selectTagsByFileIds(List<Long> fileIds) 一次查回，然后按 fileId 分组映射。"
+    },
+    {
+      "severity": "MINOR",
+      "file": "knowledge-backend/src/main/java/com/knowledge/service/FileService.java",
+      "line": 231,
+      "description": "validateAndGetExtension 方法中，使用 file.getOriginalFilename() 取最后一个 '.' 后面的字符串作为扩展名。若文件名为 '.pdf'（点开头），lastIndexOf('.') 返回 0，ext 将为 'pdf' 通过校验，但 originalName 存储时为隐藏文件名 '.pdf'，属于边界场景处理不完善，但实际危害极低。",
+      "suggestion": "在 originalFilename.lastIndexOf('.') 返回 0 时，同样视为无效扩展名（throw BadRequest），避免将以 '.' 开头的隐藏文件存入。"
+    },
+    {
+      "severity": "MINOR",
+      "file": "knowledge-backend/src/main/java/com/knowledge/controller/FileController.java",
+      "line": 34,
+      "description": "uploadFile 方法签名 throws IOException，将 IOException 暴露给框架层面而非在 Service 层吸收。若 IOException 未被 GlobalExceptionHandler 的通用 Exception handler 之外的专属 handler 处理，响应体可能不符合标准 Result 格式（实际上通用 handler 会捕获并返回 500，但 throws 声明对 REST Controller 是不必要的）。",
+      "suggestion": "在 FileService.uploadFile 内部捕获 IOException 并封装为 BusinessException 抛出，Controller 层不需要 throws IOException 声明。"
+    },
+    {
+      "severity": "INFO",
+      "file": "knowledge-backend/src/main/java/com/knowledge/service/FileStorageService.java",
+      "line": 41,
+      "description": "store() 方法使用 StandardCopyOption.REPLACE_EXISTING，若同名文件已存在将静默覆盖。由于存储路径基于 UUID 生成，实际发生碰撞的概率极低，但逻辑上允许覆盖可能掩盖潜在问题。",
+      "suggestion": "可改为不传 REPLACE_EXISTING 选项（默认不覆盖），若文件已存在则抛出异常，使问题更显式可见。"
+    },
+    {
+      "severity": "INFO",
+      "file": "knowledge-frontend/src/pages/FileListPage.vue",
+      "line": 401,
+      "description": "handleDelete 成功后判断 remaining = fileStore.files.length - 1，但 fileStore.files 此时还未更新（删除请求刚完成），当 remaining === 0 时回到第 1 页，否则直接 fetchFiles()。这个逻辑在当前页只有 1 条记录时能正确处理，但对第 1 页的 1 条记录情况（page===1 且 remaining===0）会重复调用 setPage(1) 进而 fetchFiles()，属于冗余但无害。",
+      "suggestion": "逻辑可简化为直接调用 fileStore.fetchFiles()，若当前页变空则在 store 层处理页码回退（检查 total 与 page 关系）。"
     }
   ],
-  "stats": {
-    "critical": 0,
-    "high": 0,
-    "medium": 0,
-    "low": 3
-  },
-  "verification": {
-    "prev_round_fixes": [
-      {
-        "item": "CategoryMapper ${}用法",
-        "status": "FIXED",
-        "detail": "CategoryMapper.java 全部使用 #{} 参数化绑定，CategoryMapper.xml 中 clearNoteCategories 使用 <foreach>#{id}</foreach>，无 ${} 拼接"
-      },
-      {
-        "item": "TagService @Transactional",
-        "status": "FIXED",
-        "detail": "createTag/updateTag/deleteTag 均已标注 @Transactional(rollbackFor = Exception.class)"
-      },
-      {
-        "item": "CategoryService @Transactional",
-        "status": "FIXED",
-        "detail": "createCategory/updateCategory 均已标注 @Transactional(rollbackFor = Exception.class)"
-      },
-      {
-        "item": "application-prod.yml 密码",
-        "status": "FIXED",
-        "detail": "password 改为 ${DB_PASSWORD:root}，username 改为 ${DB_USERNAME:root}，通过环境变量注入"
-      }
-    ]
-  }
+  "summary": "整体代码质量良好，安全机制的核心设计（UUID存储路径、路径穿越防护、MIME+扩展名双重校验、RFC 5987 Content-Disposition 编码、MaxUploadSizeExceededException 拦截、前端 Blob 下载、deleteFile 事务后删磁盘文件）均已正确实现，使用了项目标准工具类（Result/PageResult/BusinessException），SQL 使用参数化查询无注入风险，分页使用 IPage 而非内存分页，文件下载使用 Files.copy 流式传输。发现 2 个 MAJOR 问题：1) mimeType 信任客户端上报值存在潜在 XSS 风险；2) checkDiskSpace 用 Files.walk 全量扫描在大文件量时有性能问题且存在并发竞态。建议在合并前修复 MAJOR 问题。"
 }

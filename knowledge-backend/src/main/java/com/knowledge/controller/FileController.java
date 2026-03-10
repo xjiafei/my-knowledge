@@ -31,7 +31,7 @@ public class FileController {
             @RequestParam("file") MultipartFile file,
             @RequestParam(value = "description", required = false) String description,
             @RequestParam(value = "tagIds", required = false) List<Long> tagIds
-    ) throws IOException {
+    ) {
         FileDTO result = fileService.uploadFile(file, description, tagIds);
         return Result.success(result);
     }
@@ -54,7 +54,7 @@ public class FileController {
      * GET /api/files/{id}/download — Download a file
      */
     @GetMapping("/{id}/download")
-    public void downloadFile(@PathVariable Long id, HttpServletResponse response) throws IOException {
+    public void downloadFile(@PathVariable Long id, HttpServletResponse response) {
         fileService.downloadFile(id, response);
     }
 

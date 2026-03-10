@@ -87,7 +87,7 @@ public class FileService {
     private static final int MAX_TAG_COUNT = 20;
 
     @Transactional
-    public FileDTO uploadFile(MultipartFile file, String description, List<Long> tagIds) throws IOException {
+    public FileDTO uploadFile(MultipartFile file, String description, List<Long> tagIds) {
         if (file == null || file.isEmpty()) {
             throw BusinessException.badRequest("文件不能为空");
         }
@@ -122,10 +122,12 @@ public class FileService {
 
         // 8. Save metadata (in transaction)
         KnowledgeFile entity = new KnowledgeFile();
+        // Use canonical MIME from whitelist map, not client-supplied Content-Type
+        String canonicalMime = EXTENSION_MIME_MAP.getOrDefault(ext, "application/octet-stream");
         entity.setOriginalName(file.getOriginalFilename());
         entity.setStoredName(storedName);
         entity.setStoragePath(storagePath);
-        entity.setMimeType(file.getContentType());
+        entity.setMimeType(canonicalMime);
         entity.setFileSize(file.getSize());
         entity.setFileCategory(fileCategory);
         entity.setDescription(description);
@@ -137,7 +139,11 @@ public class FileService {
         }
 
         // 10. Write to disk (still in @Transactional - IOException triggers rollback)
-        fileStorageService.store(file, storagePath);
+        try {
+            fileStorageService.store(file, storagePath);
+        } catch (IOException e) {
+            throw new RuntimeException("文件写入失败，请重试", e);
+        }
 
         log.info("File uploaded: id={}, name={}, size={}, category={}",
                 entity.getId(), entity.getOriginalName(), entity.getFileSize(), fileCategory);
@@ -180,7 +186,7 @@ public class FileService {
         return FileDTO.fromEntity(entity, tags);
     }
 
-    public void downloadFile(Long id, HttpServletResponse response) throws IOException {
+    public void downloadFile(Long id, HttpServletResponse response) {
         KnowledgeFile entity = knowledgeFileMapper.selectById(id);
         if (entity == null) {
             throw BusinessException.notFound("文件不存在: id=" + id);
@@ -201,6 +207,8 @@ public class FileService {
 
         try (OutputStream out = response.getOutputStream()) {
             Files.copy(filePath, out);
+        } catch (IOException e) {
+            throw new RuntimeException("文件读取失败", e);
         }
     }
 
@@ -258,13 +266,11 @@ public class FileService {
         try {
             Path uploadPath = Paths.get(uploadDir);
             if (!Files.exists(uploadPath)) {
-                return; // Directory doesn't exist yet, no usage
+                Files.createDirectories(uploadPath);
             }
-            long usedBytes = Files.walk(uploadPath)
-                    .filter(Files::isRegularFile)
-                    .mapToLong(p -> p.toFile().length())
-                    .sum();
-            if (usedBytes + incomingSize > MAX_DISK_USAGE) {
+            // Use FileStore usable space (O(1)) instead of walking the directory tree
+            long usable = Files.getFileStore(uploadPath).getUsableSpace();
+            if (usable < incomingSize) {
                 throw new BusinessException(507, "存储空间不足，请清理磁盘后重试");
             }
         } catch (BusinessException e) {
