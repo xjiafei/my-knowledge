@@ -1,5 +1,6 @@
 package com.knowledge.common;
 
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -26,6 +27,16 @@ public class GlobalExceptionHandler {
                 .map(FieldError::getDefaultMessage)
                 .collect(Collectors.joining("; "));
         log.warn("Validation exception: {}", message);
+        return ResponseEntity.badRequest()
+                .body(Result.error(400, message));
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Result<Void>> handleConstraintViolation(ConstraintViolationException e) {
+        String message = e.getConstraintViolations().stream()
+                .map(v -> v.getMessage())
+                .collect(Collectors.joining("; "));
+        log.warn("Constraint violation: {}", message);
         return ResponseEntity.badRequest()
                 .body(Result.error(400, message));
     }
