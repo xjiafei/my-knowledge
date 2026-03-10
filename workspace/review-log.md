@@ -93,3 +93,25 @@
 - P5: ❌ 下载流程进度反馈说明缺失 → 已明确"浏览器原生下载，进度条由浏览器管理，无额外前端UI"
 - P6: ✅ 数据隔离说明清晰，两个页面状态独立
 - P7: ✅ 影响范围最小化已量化（每模块改动行数）
+
+# Review Log — file-knowledge/tech.md（增量特性）
+
+### Iteration 1 — file-knowledge/tech（作者视角）
+- T1: ✅ 新增模块关系图 + 集成点表（6 个现有组件，修改量量化）
+- T2: ✅ knowledge_file + file_tag 完整 DDL，索引策略表（7 条索引），ER 关系图
+- T3: ✅ 4 个 API 端点（POST/GET/GET download/DELETE）含请求/响应示例/错误码
+- T4: ✅ 后端 7 个新增类，关键类职责表，FileService 核心方法伪代码
+- T5: ✅ 前端 4 个新增文件，API module + Store + 下载 Blob + 上传进度代码片段
+- T6: ✅ 文件存储路径设计，FileStorageService 完整实现代码，路径穿越防护代码
+- T7: ✅ 安全设计表（7 个威胁），格式双重校验逻辑说明
+- T8: ✅ 需求-设计追溯矩阵覆盖 US-F001~US-F006 全部（5 列）
+- T9: ✅ 风险识别 6 个风险点含概率/影响/应对
+
+### Iteration 2 — file-knowledge/tech（架构师挑剔视角）
+- T1: ✅ 集成点量化，与现有系统的边界清晰
+- T2: ❌ 下载接口文件名编码缺实现代码 → 已补充 RFC 5987 URLEncoder 实现示例
+- T3: ❌ GET /api/files 的 tagId 参数未说明是否支持多值 → 已明确"P0 只支持单个 tagId"
+- T4: ❌ uploadFile() 事务边界说明不准确（将磁盘I/O置于事务外的说法有误） → 已修正为"磁盘写入在事务内，失败触发 DB 回滚；并说明已知局限"
+- T5: ❌ FileService 缺少标签数量上限（20个）校验 → 已在 uploadFile() 伪代码中补充
+- T6: ✅ 安全设计完整，路径穿越防护代码有 normalize() 验证
+- T7: ✅ 配置说明完整（multipart + upload.dir + GlobalExceptionHandler 507 处理）
