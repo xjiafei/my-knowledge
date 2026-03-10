@@ -16,6 +16,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -101,17 +103,37 @@ class FileControllerTest {
 
     @Test
     void listFiles_withFileCategory_returnsFilteredResults() throws Exception {
-        // Upload a PDF file first
-        MockMultipartFile file = new MockMultipartFile(
-                "file", "filtered.pdf", "application/pdf", "PDF data".getBytes());
-        mockMvc.perform(multipart("/api/files").file(file))
+        // Upload a non-PDF file (IMAGE category) to confirm it gets excluded
+        MockMultipartFile imageFile = new MockMultipartFile(
+                "file", "filter-test.png", "image/png", "PNG data".getBytes());
+        mockMvc.perform(multipart("/api/files").file(imageFile))
                 .andExpect(status().isOk());
 
-        // List with PDF filter
-        mockMvc.perform(get("/api/files")
+        // Upload a PDF file
+        MockMultipartFile pdfFile = new MockMultipartFile(
+                "file", "filter-test.pdf", "application/pdf", "PDF data".getBytes());
+        mockMvc.perform(multipart("/api/files").file(pdfFile))
+                .andExpect(status().isOk());
+
+        // List with PDF filter — must return at least 1 record, all must be PDF category
+        MvcResult result = mockMvc.perform(get("/api/files")
                         .param("fileCategory", "PDF"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.data.records").isArray());
+                .andExpect(jsonPath("$.data.records").isArray())
+                .andReturn();
+
+        JsonNode json = objectMapper.readTree(result.getResponse().getContentAsString());
+        JsonNode records = json.path("data").path("records");
+        assertThat(records.size()).isGreaterThan(0);
+
+        List<String> categories = new ArrayList<>();
+        for (JsonNode record : records) {
+            categories.add(record.path("fileCategory").asText());
+        }
+        assertThat(categories).as("All returned records must have fileCategory=PDF")
+                .allMatch(c -> "PDF".equals(c));
+        assertThat(categories).as("IMAGE files must be excluded by fileCategory=PDF filter")
+                .doesNotContain("IMAGE");
     }
 }
