@@ -1,38 +1,29 @@
 {
   "project": "my-knowledge",
-  "created_at": "2026-03-09T14:15:00Z",
-  "request_id": "REQ-20260309-001",
-  "feature_id": "",
-  "feature_name": "",
-  "feature_branch": "",
-  "session_id": "d78a0c30-f7cf-4f88-bc41-9734aaa2517c",
-  "current_stage": "implementation",
-  "is_incremental": false,
+  "created_at": "2026-03-10T02:43:00Z",
+  "request_id": "REQ-20260310-001",
+  "feature_id": "file-knowledge",
+  "feature_name": "文件类型知识管理",
+  "feature_branch": "feature/file-knowledge-upload",
+  "session_id": "dbd323c5-aed8-451d-a1ca-d0fcb760f387",
+  "current_stage": "requirements",
+  "is_incremental": true,
   "base_branch": "main",
   "stages": {
     "requirements": {
-      "status": "done",
-      "reviewed": true,
-      "review_iterations": 2,
-      "all_checks_passed": true
+      "status": "pending",
+      "reviewed": false
     },
     "product": {
-      "status": "done",
-      "reviewed": true,
-      "review_iterations": 2,
-      "all_checks_passed": true
+      "status": "pending",
+      "reviewed": false
     },
     "tech": {
-      "status": "done",
-      "reviewed": true,
-      "review_iterations": 2,
-      "all_checks_passed": true
+      "status": "pending",
+      "reviewed": false
     },
     "implementation": {
-      "status": "in_progress",
-      "sub_stage": "coding",
-      "loop_count": 0,
-      "max_loops": 5
+      "status": "pending"
     }
   }
 }
