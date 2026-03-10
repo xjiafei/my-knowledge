@@ -11,7 +11,7 @@
   "base_branch": "main",
   "stages": {
     "requirements": {
-      "status": "pending",
+      "status": "done",
       "reviewed": false
     },
     "product": {
