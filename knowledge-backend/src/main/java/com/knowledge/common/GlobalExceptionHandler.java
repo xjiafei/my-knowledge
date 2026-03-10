@@ -41,6 +41,11 @@ public class GlobalExceptionHandler {
                 .body(Result.error(400, message));
     }
 
+    @ExceptionHandler(org.springframework.web.multipart.MaxUploadSizeExceededException.class)
+    public ResponseEntity<Result<Void>> handleMaxUploadSize(org.springframework.web.multipart.MaxUploadSizeExceededException e) {
+        return ResponseEntity.status(413).body(Result.error(413, "文件大小不能超过 100MB"));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Result<Void>> handleUnknownException(Exception e) {
         log.error("Unexpected exception", e);

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+  H2-compatible KnowledgeFileMapper — same SQL as MySQL version.
+  CONCAT('%', ..., '%') is supported by H2.
+  Listed in mapper-locations for h2 profile via KnowledgeFileMapper.xml reference.
+-->
+<mapper namespace="com.knowledge.mapper.KnowledgeFileMapper">
+
+    <select id="selectFilePage" resultType="com.knowledge.entity.KnowledgeFile">
+        SELECT DISTINCT f.id, f.original_name, f.stored_name, f.storage_path,
+               f.mime_type, f.file_size, f.file_category, f.description, f.created_at
+        FROM knowledge_file f
+        <if test="tagId != null">
+            INNER JOIN file_tag ft ON f.id = ft.file_id AND ft.tag_id = #{tagId}
+        </if>
+        <where>
+            <if test="fileCategory != null and fileCategory != ''">
+                AND f.file_category = #{fileCategory}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                AND f.original_name LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+        </where>
+        ORDER BY f.created_at DESC
+    </select>
+
+</mapper>

@@ -56,6 +56,10 @@
             <el-icon><FolderOpened /></el-icon>
             分类管理
           </router-link>
+          <router-link to="/files" class="sidebar-link">
+            <el-icon><Files /></el-icon>
+            文件管理
+          </router-link>
         </div>
       </div>
     </div>
@@ -64,7 +68,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { FolderOpened, Collection, Setting, PriceTag } from '@element-plus/icons-vue'
+import { FolderOpened, Collection, Setting, PriceTag, Files } from '@element-plus/icons-vue'
 import { useNoteStore } from '@/stores/noteStore.js'
 import { useTagStore } from '@/stores/tagStore.js'
 import { useCategoryStore } from '@/stores/categoryStore.js'

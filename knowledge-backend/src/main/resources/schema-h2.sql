@@ -51,3 +51,34 @@ CREATE TABLE IF NOT EXISTS note_tag (
 );
 
 CREATE INDEX IF NOT EXISTS idx_note_tag_tag_id ON note_tag (tag_id);
+
+-- 文件元数据表
+CREATE TABLE IF NOT EXISTS knowledge_file (
+    id            BIGINT        AUTO_INCREMENT PRIMARY KEY,
+    original_name VARCHAR(255)  NOT NULL,
+    stored_name   VARCHAR(100)  NOT NULL,
+    storage_path  VARCHAR(500)  NOT NULL,
+    mime_type     VARCHAR(100)  NOT NULL,
+    file_size     BIGINT        NOT NULL,
+    file_category VARCHAR(20)   NOT NULL,
+    description   VARCHAR(500)  NULL,
+    created_at    DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT uq_knowledge_file_stored_name UNIQUE (stored_name)
+);
+
+CREATE INDEX IF NOT EXISTS idx_file_category  ON knowledge_file (file_category);
+CREATE INDEX IF NOT EXISTS idx_kf_created_at  ON knowledge_file (created_at);
+CREATE INDEX IF NOT EXISTS idx_kf_original_name ON knowledge_file (original_name);
+
+-- 文件-标签关联表
+CREATE TABLE IF NOT EXISTS file_tag (
+    file_id BIGINT NOT NULL,
+    tag_id  BIGINT NOT NULL,
+
+    PRIMARY KEY (file_id, tag_id),
+    CONSTRAINT fk_filetag_file FOREIGN KEY (file_id) REFERENCES knowledge_file(id) ON DELETE CASCADE,
+    CONSTRAINT fk_filetag_tag  FOREIGN KEY (tag_id)  REFERENCES tag(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_file_tag_tag_id ON file_tag (tag_id);

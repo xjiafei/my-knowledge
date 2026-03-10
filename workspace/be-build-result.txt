@@ -46,3 +46,11 @@ Framework: Spring Boot 3.2.3 / MyBatis-Plus 3.5.5 / Java 17
 - Input validation: @Valid + @NotBlank on all request DTOs
 - Transactions: @Transactional on multi-table write operations
 - Layered architecture: Controller -> Service -> Mapper (no layer bypass)
+
+=== file-knowledge feature — 2026-03-10 ===
+mvn clean package -DskipTests: BUILD SUCCESS
+mvn test -Dspring.profiles.active=h2: BUILD SUCCESS
+Tests run: 44, Failures: 0, Errors: 0, Skipped: 0
+New tests added:
+  - FileServiceTest: 8 unit tests (format validation, size limit, tag count, disk space, normal upload with/without tags)
+  - FileControllerTest: 5 integration tests (upload PDF 200, upload unsupported 400, list 200, delete+download 404, filter by category)

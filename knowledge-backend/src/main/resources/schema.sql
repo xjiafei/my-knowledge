@@ -48,3 +48,30 @@ CREATE TABLE IF NOT EXISTS note_tag (
     CONSTRAINT fk_notetag_note FOREIGN KEY (note_id) REFERENCES note(id) ON DELETE CASCADE,
     CONSTRAINT fk_notetag_tag  FOREIGN KEY (tag_id)  REFERENCES tag(id)  ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='笔记-标签关联表';
+
+-- 文件元数据表
+CREATE TABLE IF NOT EXISTS knowledge_file (
+    id            BIGINT        AUTO_INCREMENT PRIMARY KEY,
+    original_name VARCHAR(255)  NOT NULL,
+    stored_name   VARCHAR(100)  NOT NULL UNIQUE,
+    storage_path  VARCHAR(500)  NOT NULL,
+    mime_type     VARCHAR(100)  NOT NULL,
+    file_size     BIGINT        NOT NULL,
+    file_category VARCHAR(20)   NOT NULL,
+    description   VARCHAR(500)  NULL,
+    created_at    DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    INDEX idx_file_category (file_category),
+    INDEX idx_created_at    (created_at),
+    INDEX idx_original_name (original_name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 文件-标签关联表
+CREATE TABLE IF NOT EXISTS file_tag (
+    file_id BIGINT NOT NULL,
+    tag_id  BIGINT NOT NULL,
+    PRIMARY KEY (file_id, tag_id),
+    INDEX idx_file_tag_tag_id (tag_id),
+    CONSTRAINT fk_filetag_file FOREIGN KEY (file_id) REFERENCES knowledge_file(id) ON DELETE CASCADE,
+    CONSTRAINT fk_filetag_tag  FOREIGN KEY (tag_id)  REFERENCES tag(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

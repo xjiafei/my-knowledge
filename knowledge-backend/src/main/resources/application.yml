@@ -3,6 +3,11 @@ spring:
     active: dev
   application:
     name: knowledge-backend
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 105MB
+      file-size-threshold: 1MB
 
 management:
   endpoints:

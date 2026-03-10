@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.knowledge.mapper.FileTagMapper">
+
+    <select id="selectTagsByFileId" resultType="com.knowledge.dto.TagDTO">
+        SELECT t.id, t.name, t.created_at, 0 AS note_count
+        FROM tag t
+        INNER JOIN file_tag ft ON t.id = ft.tag_id
+        WHERE ft.file_id = #{fileId}
+    </select>
+
+    <insert id="batchInsert">
+        INSERT INTO file_tag (file_id, tag_id) VALUES
+        <foreach collection="tagIds" item="tagId" separator=",">
+            (#{fileId}, #{tagId})
+        </foreach>
+    </insert>
+
+</mapper>

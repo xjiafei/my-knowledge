@@ -15,7 +15,7 @@ spring:
       path: /h2-console
 
 mybatis-plus:
-  mapper-locations: classpath*:mapper/h2/*.xml,classpath*:mapper/CategoryMapper.xml
+  mapper-locations: classpath*:mapper/h2/*.xml,classpath*:mapper/CategoryMapper.xml,classpath*:mapper/KnowledgeFileMapper.xml,classpath*:mapper/FileTagMapper.xml
   configuration:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
@@ -25,6 +25,10 @@ mybatis-plus:
 
 server:
   port: 8080
+
+app:
+  upload:
+    dir: ${java.io.tmpdir}/knowledge-uploads-test
 
 logging:
   level:

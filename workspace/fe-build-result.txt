@@ -73,3 +73,12 @@ knowledge-frontend/
         ├── TagManagePage.vue           (create form + inline-edit table)
         ├── CategoryManagePage.vue      (tree view + create/edit form)
         └── SearchResultPage.vue        (search box + keyword-highlighted results)
+
+=== file-knowledge feature build ===
+Date: 2026-03-10
+Status: PASSED
+Build time: 4.69s
+New assets generated:
+  - FileListPage-DI8I8Yn7.css (2.20 kB)
+  - FileListPage-Dcr8eaBA.js (12.78 kB)
+Warning: Some large chunks (existing MarkdownPreview + index, not related to this feature)
