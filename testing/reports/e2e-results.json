@@ -1,0 +1,643 @@
+{
+  "config": {
+    "configFile": "/root/my-knowledge/playwright.config.js",
+    "rootDir": "/root/my-knowledge/testing/e2e",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/root/my-knowledge/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/root/my-knowledge/testing/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": "testing/reports/e2e-results.json"
+        }
+      ],
+      [
+        "html",
+        {
+          "outputFolder": "testing/reports/e2e-html",
+          "open": "never"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "file-knowledge.spec.js",
+      "file": "file-knowledge.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "TC-F-048: 空态展示 - 无文件时显示空状态提示",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1816,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-03-10T10:29:06.531Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "698c979ee5f7b9450cf8-cb093ff30158259cd0e4",
+          "file": "file-knowledge.spec.js",
+          "line": 75,
+          "column": 5
+        },
+        {
+          "title": "TC-F-044: 上传文件 - 选择文件、填写描述、选择标签、上传成功",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4402,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-03-10T10:29:08.441Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "698c979ee5f7b9450cf8-b5ceac3077a817ac935c",
+          "file": "file-knowledge.spec.js",
+          "line": 94,
+          "column": 5
+        },
+        {
+          "title": "TC-F-045: 类型筛选 - 按文件类型筛选列表",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 25819,
+                  "error": {
+                    "message": "TimeoutError: locator.click: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.el-tabs__item, .tab-item').filter({ hasText: /PDF/ }).first()\u001b[22m\n",
+                    "stack": "TimeoutError: locator.click: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.el-tabs__item, .tab-item').filter({ hasText: /PDF/ }).first()\u001b[22m\n\n    at /root/my-knowledge/testing/e2e/file-knowledge.spec.js:183:16",
+                    "location": {
+                      "file": "/root/my-knowledge/testing/e2e/file-knowledge.spec.js",
+                      "column": 16,
+                      "line": 183
+                    },
+                    "snippet": "  181 |   // Click PDF tab\n  182 |   const pdfTab = page.locator('.el-tabs__item, .tab-item').filter({ hasText: /PDF/ }).first()\n> 183 |   await pdfTab.click()\n      |                ^\n  184 |   await page.waitForTimeout(1000)\n  185 |\n  186 |   // Verify only PDF files are displayed"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/root/my-knowledge/testing/e2e/file-knowledge.spec.js",
+                        "column": 16,
+                        "line": 183
+                      },
+                      "message": "TimeoutError: locator.click: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.el-tabs__item, .tab-item').filter({ hasText: /PDF/ }).first()\u001b[22m\n\n\n  181 |   // Click PDF tab\n  182 |   const pdfTab = page.locator('.el-tabs__item, .tab-item').filter({ hasText: /PDF/ }).first()\n> 183 |   await pdfTab.click()\n      |                ^\n  184 |   await page.waitForTimeout(1000)\n  185 |\n  186 |   // Verify only PDF files are displayed\n    at /root/my-knowledge/testing/e2e/file-knowledge.spec.js:183:16"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-03-10T10:29:12.853Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/root/my-knowledge/test-results/file-knowledge-TC-F-045-类型筛选---按文件类型筛选列表-chromium/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/root/my-knowledge/test-results/file-knowledge-TC-F-045-类型筛选---按文件类型筛选列表-chromium/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/root/my-knowledge/testing/e2e/file-knowledge.spec.js",
+                    "column": 16,
+                    "line": 183
+                  }
+                },
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 26692,
+                  "error": {
+                    "message": "TimeoutError: locator.click: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.el-tabs__item, .tab-item').filter({ hasText: /PDF/ }).first()\u001b[22m\n",
+                    "stack": "TimeoutError: locator.click: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.el-tabs__item, .tab-item').filter({ hasText: /PDF/ }).first()\u001b[22m\n\n    at /root/my-knowledge/testing/e2e/file-knowledge.spec.js:183:16",
+                    "location": {
+                      "file": "/root/my-knowledge/testing/e2e/file-knowledge.spec.js",
+                      "column": 16,
+                      "line": 183
+                    },
+                    "snippet": "  181 |   // Click PDF tab\n  182 |   const pdfTab = page.locator('.el-tabs__item, .tab-item').filter({ hasText: /PDF/ }).first()\n> 183 |   await pdfTab.click()\n      |                ^\n  184 |   await page.waitForTimeout(1000)\n  185 |\n  186 |   // Verify only PDF files are displayed"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/root/my-knowledge/testing/e2e/file-knowledge.spec.js",
+                        "column": 16,
+                        "line": 183
+                      },
+                      "message": "TimeoutError: locator.click: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.el-tabs__item, .tab-item').filter({ hasText: /PDF/ }).first()\u001b[22m\n\n\n  181 |   // Click PDF tab\n  182 |   const pdfTab = page.locator('.el-tabs__item, .tab-item').filter({ hasText: /PDF/ }).first()\n> 183 |   await pdfTab.click()\n      |                ^\n  184 |   await page.waitForTimeout(1000)\n  185 |\n  186 |   // Verify only PDF files are displayed\n    at /root/my-knowledge/testing/e2e/file-knowledge.spec.js:183:16"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 1,
+                  "startTime": "2026-03-10T10:29:39.345Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/root/my-knowledge/test-results/file-knowledge-TC-F-045-类型筛选---按文件类型筛选列表-chromium-retry1/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/root/my-knowledge/test-results/file-knowledge-TC-F-045-类型筛选---按文件类型筛选列表-chromium-retry1/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/root/my-knowledge/test-results/file-knowledge-TC-F-045-类型筛选---按文件类型筛选列表-chromium-retry1/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/root/my-knowledge/testing/e2e/file-knowledge.spec.js",
+                    "column": 16,
+                    "line": 183
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "698c979ee5f7b9450cf8-9bd57c9850aa7576923f",
+          "file": "file-knowledge.spec.js",
+          "line": 146,
+          "column": 5
+        },
+        {
+          "title": "TC-F-046: 文件名搜索 - 输入关键词搜索文件",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 13377,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=/季度/')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=/季度/')\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=/季度/')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=/季度/')\u001b[22m\n\n    at /root/my-knowledge/testing/e2e/file-knowledge.spec.js:241:43",
+                    "location": {
+                      "file": "/root/my-knowledge/testing/e2e/file-knowledge.spec.js",
+                      "column": 43,
+                      "line": 241
+                    },
+                    "snippet": "  239 |\n  240 |   // Verify only matching file is displayed\n> 241 |   await expect(page.locator('text=/季度/')).toBeVisible()\n      |                                           ^\n  242 |\n  243 |   // Verify non-matching file is not displayed\n  244 |   const rows = page.locator('[data-testid=\"file-table\"] tbody tr, .el-table tbody tr, .file-item')"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/root/my-knowledge/testing/e2e/file-knowledge.spec.js",
+                        "column": 43,
+                        "line": 241
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=/季度/')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=/季度/')\u001b[22m\n\n\n  239 |\n  240 |   // Verify only matching file is displayed\n> 241 |   await expect(page.locator('text=/季度/')).toBeVisible()\n      |                                           ^\n  242 |\n  243 |   // Verify non-matching file is not displayed\n  244 |   const rows = page.locator('[data-testid=\"file-table\"] tbody tr, .el-table tbody tr, .file-item')\n    at /root/my-knowledge/testing/e2e/file-knowledge.spec.js:241:43"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-03-10T10:30:06.963Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/root/my-knowledge/test-results/file-knowledge-TC-F-046-文件名搜索---输入关键词搜索文件-chromium/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/root/my-knowledge/test-results/file-knowledge-TC-F-046-文件名搜索---输入关键词搜索文件-chromium/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/root/my-knowledge/testing/e2e/file-knowledge.spec.js",
+                    "column": 43,
+                    "line": 241
+                  }
+                },
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 14040,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=/季度/')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=/季度/')\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=/季度/')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=/季度/')\u001b[22m\n\n    at /root/my-knowledge/testing/e2e/file-knowledge.spec.js:241:43",
+                    "location": {
+                      "file": "/root/my-knowledge/testing/e2e/file-knowledge.spec.js",
+                      "column": 43,
+                      "line": 241
+                    },
+                    "snippet": "  239 |\n  240 |   // Verify only matching file is displayed\n> 241 |   await expect(page.locator('text=/季度/')).toBeVisible()\n      |                                           ^\n  242 |\n  243 |   // Verify non-matching file is not displayed\n  244 |   const rows = page.locator('[data-testid=\"file-table\"] tbody tr, .el-table tbody tr, .file-item')"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/root/my-knowledge/testing/e2e/file-knowledge.spec.js",
+                        "column": 43,
+                        "line": 241
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('text=/季度/')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=/季度/')\u001b[22m\n\n\n  239 |\n  240 |   // Verify only matching file is displayed\n> 241 |   await expect(page.locator('text=/季度/')).toBeVisible()\n      |                                           ^\n  242 |\n  243 |   // Verify non-matching file is not displayed\n  244 |   const rows = page.locator('[data-testid=\"file-table\"] tbody tr, .el-table tbody tr, .file-item')\n    at /root/my-knowledge/testing/e2e/file-knowledge.spec.js:241:43"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 1,
+                  "startTime": "2026-03-10T10:30:21.123Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/root/my-knowledge/test-results/file-knowledge-TC-F-046-文件名搜索---输入关键词搜索文件-chromium-retry1/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/root/my-knowledge/test-results/file-knowledge-TC-F-046-文件名搜索---输入关键词搜索文件-chromium-retry1/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/root/my-knowledge/test-results/file-knowledge-TC-F-046-文件名搜索---输入关键词搜索文件-chromium-retry1/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/root/my-knowledge/testing/e2e/file-knowledge.spec.js",
+                    "column": 43,
+                    "line": 241
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "698c979ee5f7b9450cf8-ca9f5e81e923fb3b7f40",
+          "file": "file-knowledge.spec.js",
+          "line": 206,
+          "column": 5
+        },
+        {
+          "title": "TC-F-047: 删除文件 - 确认对话框流程",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 18568,
+                  "error": {
+                    "message": "TimeoutError: locator.click: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button[title=\"删除\"], .el-button--danger, button').filter({ hasText: /删除/ }).first()\u001b[22m\n",
+                    "stack": "TimeoutError: locator.click: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button[title=\"删除\"], .el-button--danger, button').filter({ hasText: /删除/ }).first()\u001b[22m\n\n    at /root/my-knowledge/testing/e2e/file-knowledge.spec.js:290:19",
+                    "location": {
+                      "file": "/root/my-knowledge/testing/e2e/file-knowledge.spec.js",
+                      "column": 19,
+                      "line": 290
+                    },
+                    "snippet": "  288 |   // Click delete button\n  289 |   const deleteBtn = page.locator('button[title=\"删除\"], .el-button--danger, button').filter({ hasText: /删除/ }).first()\n> 290 |   await deleteBtn.click()\n      |                   ^\n  291 |\n  292 |   // Verify confirmation dialog appears\n  293 |   await page.waitForTimeout(500)"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/root/my-knowledge/testing/e2e/file-knowledge.spec.js",
+                        "column": 19,
+                        "line": 290
+                      },
+                      "message": "TimeoutError: locator.click: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button[title=\"删除\"], .el-button--danger, button').filter({ hasText: /删除/ }).first()\u001b[22m\n\n\n  288 |   // Click delete button\n  289 |   const deleteBtn = page.locator('button[title=\"删除\"], .el-button--danger, button').filter({ hasText: /删除/ }).first()\n> 290 |   await deleteBtn.click()\n      |                   ^\n  291 |\n  292 |   // Verify confirmation dialog appears\n  293 |   await page.waitForTimeout(500)\n    at /root/my-knowledge/testing/e2e/file-knowledge.spec.js:290:19"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-03-10T10:30:36.039Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/root/my-knowledge/test-results/file-knowledge-TC-F-047-删除文件---确认对话框流程-chromium/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/root/my-knowledge/test-results/file-knowledge-TC-F-047-删除文件---确认对话框流程-chromium/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/root/my-knowledge/testing/e2e/file-knowledge.spec.js",
+                    "column": 19,
+                    "line": 290
+                  }
+                },
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 18780,
+                  "error": {
+                    "message": "TimeoutError: locator.click: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button[title=\"删除\"], .el-button--danger, button').filter({ hasText: /删除/ }).first()\u001b[22m\n",
+                    "stack": "TimeoutError: locator.click: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button[title=\"删除\"], .el-button--danger, button').filter({ hasText: /删除/ }).first()\u001b[22m\n\n    at /root/my-knowledge/testing/e2e/file-knowledge.spec.js:290:19",
+                    "location": {
+                      "file": "/root/my-knowledge/testing/e2e/file-knowledge.spec.js",
+                      "column": 19,
+                      "line": 290
+                    },
+                    "snippet": "  288 |   // Click delete button\n  289 |   const deleteBtn = page.locator('button[title=\"删除\"], .el-button--danger, button').filter({ hasText: /删除/ }).first()\n> 290 |   await deleteBtn.click()\n      |                   ^\n  291 |\n  292 |   // Verify confirmation dialog appears\n  293 |   await page.waitForTimeout(500)"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/root/my-knowledge/testing/e2e/file-knowledge.spec.js",
+                        "column": 19,
+                        "line": 290
+                      },
+                      "message": "TimeoutError: locator.click: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button[title=\"删除\"], .el-button--danger, button').filter({ hasText: /删除/ }).first()\u001b[22m\n\n\n  288 |   // Click delete button\n  289 |   const deleteBtn = page.locator('button[title=\"删除\"], .el-button--danger, button').filter({ hasText: /删除/ }).first()\n> 290 |   await deleteBtn.click()\n      |                   ^\n  291 |\n  292 |   // Verify confirmation dialog appears\n  293 |   await page.waitForTimeout(500)\n    at /root/my-knowledge/testing/e2e/file-knowledge.spec.js:290:19"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 1,
+                  "startTime": "2026-03-10T10:30:55.366Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/root/my-knowledge/test-results/file-knowledge-TC-F-047-删除文件---确认对话框流程-chromium-retry1/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/root/my-knowledge/test-results/file-knowledge-TC-F-047-删除文件---确认对话框流程-chromium-retry1/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/root/my-knowledge/test-results/file-knowledge-TC-F-047-删除文件---确认对话框流程-chromium-retry1/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/root/my-knowledge/testing/e2e/file-knowledge.spec.js",
+                    "column": 19,
+                    "line": 290
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "698c979ee5f7b9450cf8-bf83ba5276ed3cd81751",
+          "file": "file-knowledge.spec.js",
+          "line": 260,
+          "column": 5
+        },
+        {
+          "title": "TC-F-049: 上传格式校验 - 前端拒绝不支持的文件格式",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 2908,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: .el-message--error, .error-message, text=/不支持.*格式/\nExpected: visible\nError: Unexpected token \"=\" while parsing css selector \".el-message--error, .error-message, text=/不支持.*格式/\". Did you mean to CSS.escape it?\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for .el-message--error, .error-message, text=/不支持.*格式/\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: .el-message--error, .error-message, text=/不支持.*格式/\nExpected: visible\nError: Unexpected token \"=\" while parsing css selector \".el-message--error, .error-message, text=/不支持.*格式/\". Did you mean to CSS.escape it?\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for .el-message--error, .error-message, text=/不支持.*格式/\u001b[22m\n\n    at /root/my-knowledge/testing/e2e/file-knowledge.spec.js:359:26",
+                    "location": {
+                      "file": "/root/my-knowledge/testing/e2e/file-knowledge.spec.js",
+                      "column": 26,
+                      "line": 359
+                    },
+                    "snippet": "  357 |   // Verify error message is displayed\n  358 |   const errorMsg = page.locator('.el-message--error, .error-message, text=/不支持.*格式/')\n> 359 |   await expect(errorMsg).toBeVisible({ timeout: 5000 })\n      |                          ^\n  360 |\n  361 |   // Verify upload button is disabled or file is not accepted\n  362 |   const uploadBtn = page.locator('.el-dialog').getByRole('button', { name: /上传/ })"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/root/my-knowledge/testing/e2e/file-knowledge.spec.js",
+                        "column": 26,
+                        "line": 359
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: .el-message--error, .error-message, text=/不支持.*格式/\nExpected: visible\nError: Unexpected token \"=\" while parsing css selector \".el-message--error, .error-message, text=/不支持.*格式/\". Did you mean to CSS.escape it?\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for .el-message--error, .error-message, text=/不支持.*格式/\u001b[22m\n\n\n  357 |   // Verify error message is displayed\n  358 |   const errorMsg = page.locator('.el-message--error, .error-message, text=/不支持.*格式/')\n> 359 |   await expect(errorMsg).toBeVisible({ timeout: 5000 })\n      |                          ^\n  360 |\n  361 |   // Verify upload button is disabled or file is not accepted\n  362 |   const uploadBtn = page.locator('.el-dialog').getByRole('button', { name: /上传/ })\n    at /root/my-knowledge/testing/e2e/file-knowledge.spec.js:359:26"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-03-10T10:31:14.991Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/root/my-knowledge/test-results/file-knowledge-TC-F-049-上传格式校验---前端拒绝不支持的文件格式-chromium/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/root/my-knowledge/test-results/file-knowledge-TC-F-049-上传格式校验---前端拒绝不支持的文件格式-chromium/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/root/my-knowledge/testing/e2e/file-knowledge.spec.js",
+                    "column": 26,
+                    "line": 359
+                  }
+                },
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 3108,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: .el-message--error, .error-message, text=/不支持.*格式/\nExpected: visible\nError: Unexpected token \"=\" while parsing css selector \".el-message--error, .error-message, text=/不支持.*格式/\". Did you mean to CSS.escape it?\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for .el-message--error, .error-message, text=/不支持.*格式/\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: .el-message--error, .error-message, text=/不支持.*格式/\nExpected: visible\nError: Unexpected token \"=\" while parsing css selector \".el-message--error, .error-message, text=/不支持.*格式/\". Did you mean to CSS.escape it?\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for .el-message--error, .error-message, text=/不支持.*格式/\u001b[22m\n\n    at /root/my-knowledge/testing/e2e/file-knowledge.spec.js:359:26",
+                    "location": {
+                      "file": "/root/my-knowledge/testing/e2e/file-knowledge.spec.js",
+                      "column": 26,
+                      "line": 359
+                    },
+                    "snippet": "  357 |   // Verify error message is displayed\n  358 |   const errorMsg = page.locator('.el-message--error, .error-message, text=/不支持.*格式/')\n> 359 |   await expect(errorMsg).toBeVisible({ timeout: 5000 })\n      |                          ^\n  360 |\n  361 |   // Verify upload button is disabled or file is not accepted\n  362 |   const uploadBtn = page.locator('.el-dialog').getByRole('button', { name: /上传/ })"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/root/my-knowledge/testing/e2e/file-knowledge.spec.js",
+                        "column": 26,
+                        "line": 359
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: .el-message--error, .error-message, text=/不支持.*格式/\nExpected: visible\nError: Unexpected token \"=\" while parsing css selector \".el-message--error, .error-message, text=/不支持.*格式/\". Did you mean to CSS.escape it?\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for .el-message--error, .error-message, text=/不支持.*格式/\u001b[22m\n\n\n  357 |   // Verify error message is displayed\n  358 |   const errorMsg = page.locator('.el-message--error, .error-message, text=/不支持.*格式/')\n> 359 |   await expect(errorMsg).toBeVisible({ timeout: 5000 })\n      |                          ^\n  360 |\n  361 |   // Verify upload button is disabled or file is not accepted\n  362 |   const uploadBtn = page.locator('.el-dialog').getByRole('button', { name: /上传/ })\n    at /root/my-knowledge/testing/e2e/file-knowledge.spec.js:359:26"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 1,
+                  "startTime": "2026-03-10T10:31:18.645Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/root/my-knowledge/test-results/file-knowledge-TC-F-049-上传格式校验---前端拒绝不支持的文件格式-chromium-retry1/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/root/my-knowledge/test-results/file-knowledge-TC-F-049-上传格式校验---前端拒绝不支持的文件格式-chromium-retry1/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/root/my-knowledge/test-results/file-knowledge-TC-F-049-上传格式校验---前端拒绝不支持的文件格式-chromium-retry1/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/root/my-knowledge/testing/e2e/file-knowledge.spec.js",
+                    "column": 26,
+                    "line": 359
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "698c979ee5f7b9450cf8-22644df1db1fe8cb369d",
+          "file": "file-knowledge.spec.js",
+          "line": 337,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-03-10T10:29:05.783Z",
+    "duration": 136139.815,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 4,
+    "flaky": 0
+  }
+}
