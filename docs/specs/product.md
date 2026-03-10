@@ -371,3 +371,23 @@ Note *---* Tag        （多对多，通过 note_tags）
 Note *---1 Category   （多对一，一篇笔记属于一个分类）
 Category *---1 Category （自引用，parent_id 实现层级）
 ```
+
+---
+
+## [特性 file-knowledge] 文件类型知识管理
+
+> 以下内容合并自 docs/specs/features/file-knowledge/product.md
+
+### 新增页面
+- `/files` 文件管理页：顶部操作栏 + 类型 Tab 筛选 + 标签多选 + el-table 文件列表 + 分页器
+
+### 新增组件
+- `FileListPage.vue` — 文件管理主页面
+- `FileUploadDialog.vue` — 上传弹窗（拖拽+进度条+描述+标签选择）
+- `api/file.js` — 文件 API 层
+- `stores/fileStore.js` — 文件状态管理
+
+### 对现有系统影响
+- `AppSidebar.vue` 新增"文件管理"入口（~3行）
+- `router/index.js` 新增路由（~1行）
+- 笔记/搜索/标签页完全不受影响

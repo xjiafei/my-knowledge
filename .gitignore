@@ -37,3 +37,4 @@ testing/reports/*.html
 # Logs
 *.log
 node_modules/
+test-results/

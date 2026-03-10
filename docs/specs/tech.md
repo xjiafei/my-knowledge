@@ -770,3 +770,27 @@ management:
 **替代方案：** 纯手写组件 — 灵活但开发周期长，MVP 阶段不划算。
 
 **状态：** 已采纳，2026-03-09
+
+---
+
+## [特性 file-knowledge] 文件类型知识管理
+
+> 以下内容合并自 docs/specs/features/file-knowledge/tech.md
+
+### 数据库
+- `knowledge_file` 表：id / original_name / stored_name(UUID) / storage_path / mime_type / file_size / file_category / description / created_at
+- `file_tag` 表：PRIMARY KEY(file_id, tag_id)，ON DELETE CASCADE
+
+### API
+| 端点 | 说明 |
+|------|------|
+| `POST /api/files` | multipart 上传 |
+| `GET /api/files` | 分页列表，支持 fileCategory/tagId/keyword 筛选 |
+| `GET /api/files/{id}/download` | 流式下载 |
+| `DELETE /api/files/{id}` | 删除（元数据+磁盘文件） |
+
+### 安全设计
+- UUID 存储名防路径穿越
+- 扩展名白名单 + Content-Type 映射双重校验
+- uploads/ 不做静态资源，只经 Controller 流式返回
+- 磁盘空间检查：>10GB → 507，>100MB → 413
