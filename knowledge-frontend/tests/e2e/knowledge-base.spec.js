@@ -1,10 +1,21 @@
 // E2E Tests for Personal Knowledge Management System
 // Tests cover: Home, Notes CRUD, Search, Tags, Categories
-import { test, expect } from '@playwright/test'
+import { test, expect, request } from '@playwright/test'
 
 // Shared state across tests within the suite
 let createdNoteTitle = ''
 let createdNoteId = ''
+const API = 'http://localhost:8080/api'
+
+// Seed a note with 'Test' in title so search tests have data
+test.beforeAll(async () => {
+  const ctx = await request.newContext()
+  await ctx.post(`${API}/notes`, {
+    data: { title: 'Test Seed Note', content: 'Seed content for E2E search testing', tagIds: [] },
+    headers: { 'Content-Type': 'application/json' }
+  })
+  await ctx.dispose()
+})
 
 // ─────────────────────────────────────────────
 // TC-001: 首页加载
@@ -22,8 +33,8 @@ test('TC-001: 首页加载 - 验证页面标题和基础元素', async ({ page }
   // Verify header search input exists
   await expect(page.locator('.app-header .search-input')).toBeVisible()
 
-  // Verify "新建笔记" button exists
-  await expect(page.getByRole('button', { name: '新建笔记' })).toBeVisible()
+  // Verify "新建笔记" button exists (scope to header to avoid strict mode)
+  await expect(page.locator('.app-header').getByRole('button', { name: '新建笔记' })).toBeVisible()
 })
 
 // ─────────────────────────────────────────────
@@ -52,8 +63,8 @@ test('TC-002: 创建笔记 - 新建、填写内容、保存', async ({ page }) =
   await page.goto('/')
   await page.waitForLoadState('networkidle')
 
-  // Click "新建笔记" button
-  await page.getByRole('button', { name: '新建笔记' }).click()
+  // Click "新建笔记" button in header (avoid strict mode with multiple matches)
+  await page.locator('.app-header').getByRole('button', { name: '新建笔记' }).click()
 
   // Verify URL navigated to /notes/new
   await expect(page).toHaveURL(/\/notes\/new/)
@@ -75,7 +86,7 @@ test('TC-002: 创建笔记 - 新建、填写内容、保存', async ({ page }) =
   await page.getByRole('button', { name: '保存' }).click()
 
   // Wait for success message
-  await expect(page.locator('.el-message--success, [class*="el-message"]')).toBeVisible({ timeout: 10000 })
+  await expect(page.locator('.el-message--success')).toBeVisible({ timeout: 10000 })
 
   // Verify redirect to note detail page
   await page.waitForURL(/\/notes\/\d+$/, { timeout: 10000 })
@@ -94,14 +105,11 @@ test('TC-002: 创建笔记 - 新建、填写内容、保存', async ({ page }) =
 // TC-003: 笔记列表显示
 // ─────────────────────────────────────────────
 test('TC-003: 笔记列表 - 创建后在首页显示', async ({ page }) => {
-  // If TC-002 didn't run or failed, use existing note from backend seed data
-  const titleToFind = createdNoteTitle || 'Test Note'
-
   await page.goto('/')
   await page.waitForLoadState('networkidle')
   await page.waitForTimeout(2000)
 
-  // Note list or toolbar should be visible
+  // Note list or toolbar should be visible (seed note guaranteed by beforeAll)
   const noteList = page.locator('.note-list, .note-card, .el-card')
   await expect(noteList.first()).toBeVisible({ timeout: 10000 })
 
@@ -214,7 +222,7 @@ test('TC-005: 标签管理 - 创建新标签并验证显示', async ({ page }) =
   await page.getByRole('button', { name: '添加标签' }).click()
 
   // Wait for success message
-  await expect(page.locator('.el-message--success, [class*="el-message"]')).toBeVisible({ timeout: 8000 })
+  await expect(page.locator('.el-message--success')).toBeVisible({ timeout: 8000 })
 
   // Wait for tag list to refresh
   await page.waitForTimeout(1000)
@@ -246,13 +254,13 @@ test('TC-006: 分类管理 - 创建新分类并验证树形显示', async ({ pag
   await page.getByRole('button', { name: '创建分类' }).click()
 
   // Wait for success message
-  await expect(page.locator('.el-message--success, [class*="el-message"]')).toBeVisible({ timeout: 8000 })
+  await expect(page.locator('.el-message--success')).toBeVisible({ timeout: 8000 })
 
   // Wait for category tree to refresh
   await page.waitForTimeout(1000)
 
-  // Verify the new category appears in the tree panel
-  await expect(page.locator('.tree-panel, .el-tree')).toContainText(catName, { timeout: 5000 })
+  // Verify the new category appears in the tree (scope to el-tree, not wrapper panel)
+  await expect(page.locator('.el-tree')).toContainText(catName, { timeout: 5000 })
 })
 
 // ─────────────────────────────────────────────
@@ -300,7 +308,7 @@ test('TC-007: 删除笔记 - 确认删除并验证从列表消失', async ({ pag
   await confirmBtn.click()
 
   // Wait for success message
-  await expect(page.locator('.el-message--success, [class*="el-message"]')).toBeVisible({ timeout: 8000 })
+  await expect(page.locator('.el-message--success')).toBeVisible({ timeout: 8000 })
 
   // Wait for list to refresh
   await page.waitForTimeout(1500)
