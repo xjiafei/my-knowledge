@@ -1,0 +1,49 @@
+{
+  "stage": "tech",
+  "maxIterations": 3,
+  "checkItems": [
+    {
+      "id": "T1",
+      "title": "架构设计合理",
+      "criteria": "包含系统架构图、模块划分、模块间依赖关系，架构选型有理由",
+      "passes": true
+    },
+    {
+      "id": "T2",
+      "title": "数据模型完整",
+      "criteria": "包含 ER 图或表结构定义，字段类型/约束明确，索引策略说明",
+      "passes": true
+    },
+    {
+      "id": "T3",
+      "title": "接口定义清晰",
+      "criteria": "核心 API 有 URL、方法、请求/响应格式、状态码、错误码定义",
+      "passes": true
+    },
+    {
+      "id": "T4",
+      "title": "技术选型有据",
+      "criteria": "关键技术选型（框架、中间件、第三方库）有选择理由和备选方案",
+      "passes": true
+    },
+    {
+      "id": "T5",
+      "title": "需求追溯矩阵",
+      "criteria": "输出需求-设计追溯矩阵，每条需求有对应的技术实现方案",
+      "passes": true
+    },
+    {
+      "id": "T6",
+      "title": "风险识别",
+      "criteria": "识别技术风险点（性能瓶颈、第三方依赖、技术债务），有应对策略",
+      "passes": true
+    },
+    {
+      "id": "T7",
+      "title": "部署与运维",
+      "criteria": "包含部署方案、环境配置、监控策略、日志策略的基本说明",
+      "passes": true
+    }
+  ],
+  "minIterations": 2
+}

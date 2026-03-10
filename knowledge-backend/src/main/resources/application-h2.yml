@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:knowledge_db;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema-h2.sql
+      encoding: UTF-8
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+mybatis-plus:
+  mapper-locations: classpath*:mapper/h2/*.xml,classpath*:mapper/CategoryMapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+
+server:
+  port: 8080
+
+logging:
+  level:
+    com.knowledge: DEBUG
+    org.springframework.jdbc: DEBUG

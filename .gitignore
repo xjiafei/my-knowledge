@@ -1,0 +1,38 @@
+# Java / Maven
+backend/target/
+knowledge-backend/target/
+*.class
+*.jar
+*.war
+
+# Node / NPM
+frontend/node_modules/
+frontend/dist/
+knowledge-frontend/node_modules/
+knowledge-frontend/dist/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+*.env.local
+
+# Docker
+docker-compose.override.yml
+
+# Test & Coverage
+coverage/
+*.lcov
+testing/reports/*.html
+
+# Logs
+*.log

@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "summary": "All 5 architecture acceptance checks passed. Code implementation faithfully follows tech.md specification across all dimensions: layering, data model, API contracts, technology choices, and non-functional requirements.",
+  "items": [
+    {
+      "id": "T1",
+      "title": "架构分层",
+      "passed": true,
+      "reason": "Controller only handles parameter binding and @Valid validation; Service contains all business logic (summary generation, tree building, cascade delete); Mapper extends BaseMapper for data access with custom SQL in XML.",
+      "file": "knowledge-backend/src/main/java/com/knowledge/controller/, service/, mapper/"
+    },
+    {
+      "id": "T2",
+      "title": "数据模型一致性",
+      "passed": true,
+      "reason": "schema.sql defines all 4 tables (category, tag, note, note_tag) with exact field names, types, indexes, and constraints matching tech.md. note table has idx_title, summary VARCHAR(200), FULLTEXT INDEX ft_note_title_content WITH PARSER ngram, and fk_note_category ON DELETE SET NULL.",
+      "file": "knowledge-backend/src/main/resources/schema.sql"
+    },
+    {
+      "id": "T3",
+      "title": "API 实现一致性",
+      "passed": true,
+      "reason": "All API endpoints match tech.md spec: GET /api/notes with page/size/sort/order/tagId/categoryId params; POST/PUT/DELETE /api/notes/{id}; GET /api/notes/search?q= with static path priority over /{id}; GET /api/tags ordered by noteCount DESC; full CRUD for tags and categories; unified Result<T> response format with code/message/data.",
+      "file": "knowledge-backend/src/main/java/com/knowledge/controller/NoteController.java"
+    },
+    {
+      "id": "T4",
+      "title": "技术选型落地",
+      "passed": true,
+      "reason": "MyBatis-Plus with PaginationInnerInterceptor configured; FULLTEXT search uses MATCH AGAINST IN BOOLEAN MODE; marked.use(markedHighlight()) used instead of deprecated setOptions; DOMPurify.sanitize() applied before v-html rendering.",
+      "file": "knowledge-frontend/src/composables/useMarkdown.js"
+    },
+    {
+      "id": "T5",
+      "title": "非功能需求",
+      "passed": true,
+      "reason": "List APIs implement pagination with default 20 per page via MyBatis-Plus IPage; search uses database FULLTEXT index with ngram parser for Chinese support.",
+      "file": "knowledge-backend/src/main/resources/mapper/NoteMapper.xml"
+    }
+  ]
+}

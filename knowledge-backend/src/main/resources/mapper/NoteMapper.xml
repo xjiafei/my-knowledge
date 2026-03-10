@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.knowledge.mapper.NoteMapper">
+
+    <resultMap id="NoteDTOMap" type="com.knowledge.dto.NoteDTO">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="summary" property="summary"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <!-- Note list with optional tagId and categoryId filter -->
+    <select id="selectNotePage" resultMap="NoteDTOMap">
+        SELECT DISTINCT n.id, n.title, n.summary, n.category_id,
+               c.name AS category_name, n.created_at, n.updated_at
+        FROM note n
+        LEFT JOIN category c ON n.category_id = c.id
+        <if test="tagId != null">
+            INNER JOIN note_tag nt ON n.id = nt.note_id AND nt.tag_id = #{tagId}
+        </if>
+        <where>
+            <if test="categoryId != null">
+                n.category_id = #{categoryId}
+            </if>
+        </where>
+        ORDER BY
+        <choose>
+            <when test="sort == 'createdAt'">n.created_at</when>
+            <when test="sort == 'title'">n.title</when>
+            <otherwise>n.updated_at</otherwise>
+        </choose>
+        <choose>
+            <when test="order == 'asc'">ASC</when>
+            <otherwise>DESC</otherwise>
+        </choose>
+    </select>
+
+    <!-- Full-text search using MATCH AGAINST IN BOOLEAN MODE -->
+    <select id="searchNotes" resultMap="NoteDTOMap">
+        SELECT n.id, n.title, n.summary, n.category_id,
+               c.name AS category_name, n.created_at, n.updated_at,
+               MATCH(n.title, n.content) AGAINST(#{keyword} IN BOOLEAN MODE) AS relevance
+        FROM note n
+        LEFT JOIN category c ON n.category_id = c.id
+        WHERE MATCH(n.title, n.content) AGAINST(#{keyword} IN BOOLEAN MODE)
+        ORDER BY relevance DESC
+    </select>
+
+    <!-- Note detail with category name (tags loaded separately) -->
+    <select id="selectNoteDetail" resultMap="NoteDTOMap">
+        SELECT n.id, n.title, n.content, n.summary, n.category_id,
+               c.name AS category_name, n.created_at, n.updated_at
+        FROM note n
+        LEFT JOIN category c ON n.category_id = c.id
+        WHERE n.id = #{id}
+    </select>
+
+</mapper>

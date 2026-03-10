@@ -1,0 +1,38 @@
+{
+  "project": "my-knowledge",
+  "created_at": "2026-03-09T14:15:00Z",
+  "request_id": "REQ-20260309-001",
+  "feature_id": "",
+  "feature_name": "",
+  "feature_branch": "",
+  "session_id": "d78a0c30-f7cf-4f88-bc41-9734aaa2517c",
+  "current_stage": "implementation",
+  "is_incremental": false,
+  "base_branch": "main",
+  "stages": {
+    "requirements": {
+      "status": "done",
+      "reviewed": true,
+      "review_iterations": 2,
+      "all_checks_passed": true
+    },
+    "product": {
+      "status": "done",
+      "reviewed": true,
+      "review_iterations": 2,
+      "all_checks_passed": true
+    },
+    "tech": {
+      "status": "done",
+      "reviewed": true,
+      "review_iterations": 2,
+      "all_checks_passed": true
+    },
+    "implementation": {
+      "status": "in_progress",
+      "sub_stage": "coding",
+      "loop_count": 0,
+      "max_loops": 5
+    }
+  }
+}

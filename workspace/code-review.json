@@ -1,0 +1,58 @@
+{
+  "round": 2,
+  "passed": true,
+  "summary": "所有上轮问题已确认修复。NoteService 的 @Transactional 未指定 rollbackFor，存在受检异常不回滚的隐患，但该类不抛出受检异常，实际运行无数据安全问题，记为 LOW。无 CRITICAL 或 HIGH 问题。",
+  "issues": [
+    {
+      "file": "knowledge-backend/src/main/java/com/knowledge/service/NoteService.java",
+      "line": 59,
+      "severity": "LOW",
+      "description": "@Transactional 未指定 rollbackFor = Exception.class，与 CategoryService / TagService 的写法不一致。若未来方法抛出受检异常，事务不会回滚。当前代码仅抛 BusinessException（继承 RuntimeException），实际无风险。",
+      "suggestion": "与同项目其他 Service 保持一致，改为 @Transactional(rollbackFor = Exception.class)"
+    },
+    {
+      "file": "knowledge-backend/src/main/java/com/knowledge/service/NoteService.java",
+      "line": 171,
+      "severity": "LOW",
+      "description": "generateSummary 直接截取 Markdown 原始文本的前 100 个字符作为摘要，会把 Markdown 语法符号（如 ##、**、[]()）暴露在摘要中，展示给用户时不够友好。",
+      "suggestion": "截取前先用正则去除 Markdown 标记符号，或使用纯文本解析器提取摘要。"
+    },
+    {
+      "file": "knowledge-backend/src/main/java/com/knowledge/config/CorsConfig.java",
+      "line": 15,
+      "severity": "LOW",
+      "description": "CORS 的 allowedOrigin 硬编码为 http://localhost:5173，生产环境无法复用，需要改为配置项。",
+      "suggestion": "从 application.yml 读取 cors.allowed-origin 属性，由 prod 和 dev 配置文件分别设值。"
+    }
+  ],
+  "stats": {
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 3
+  },
+  "verification": {
+    "prev_round_fixes": [
+      {
+        "item": "CategoryMapper ${}用法",
+        "status": "FIXED",
+        "detail": "CategoryMapper.java 全部使用 #{} 参数化绑定，CategoryMapper.xml 中 clearNoteCategories 使用 <foreach>#{id}</foreach>，无 ${} 拼接"
+      },
+      {
+        "item": "TagService @Transactional",
+        "status": "FIXED",
+        "detail": "createTag/updateTag/deleteTag 均已标注 @Transactional(rollbackFor = Exception.class)"
+      },
+      {
+        "item": "CategoryService @Transactional",
+        "status": "FIXED",
+        "detail": "createCategory/updateCategory 均已标注 @Transactional(rollbackFor = Exception.class)"
+      },
+      {
+        "item": "application-prod.yml 密码",
+        "status": "FIXED",
+        "detail": "password 改为 ${DB_PASSWORD:root}，username 改为 ${DB_USERNAME:root}，通过环境变量注入"
+      }
+    ]
+  }
+}

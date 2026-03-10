@@ -1,0 +1,28 @@
+{
+  "fixed": [
+    {
+      "issue": "CategoryMapper SQL注入修复",
+      "file": "src/main/java/com/knowledge/mapper/CategoryMapper.java",
+      "action": "删除 @Update 注解中的 ${ids} 字符串拼接方式，改方法签名为 List<Long>，创建 CategoryMapper.xml 使用 <foreach> + #{id} 参数化查询；同步修改 CategoryService.deleteCategory 调用方式（传入 List<Long> 代替拼接字符串）；更新 CategoryServiceTest 中相关 mock 使用 anyList()"
+    },
+    {
+      "issue": "TagService @Transactional",
+      "file": "src/main/java/com/knowledge/service/TagService.java",
+      "action": "在 createTag、updateTag、deleteTag 三个写操作方法上添加 @Transactional(rollbackFor = Exception.class)"
+    },
+    {
+      "issue": "CategoryService @Transactional",
+      "file": "src/main/java/com/knowledge/service/CategoryService.java",
+      "action": "在 createCategory、updateCategory 两个写操作方法上添加 @Transactional(rollbackFor = Exception.class)；同时将已有的 deleteCategory @Transactional 补充 rollbackFor = Exception.class"
+    },
+    {
+      "issue": "application-prod.yml 密码改环境变量",
+      "file": "src/main/resources/application-prod.yml",
+      "action": "将 username: root 改为 ${DB_USERNAME:root}，password: root 改为 ${DB_PASSWORD:root}"
+    }
+  ],
+  "buildPassed": true,
+  "testPassed": true,
+  "testCount": 31,
+  "notes": ""
+}

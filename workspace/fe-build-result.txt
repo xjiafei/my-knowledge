@@ -1,0 +1,75 @@
+Build Status: SUCCESS (0 errors, XSS-safe)
+Build Time: 2026-03-10
+Tool: Vite 5.4.21
+Node: v22.22.0
+
+=== Build Output ===
+dist/index.html                                  0.46 kB │ gzip:   0.33 kB
+dist/assets/EmptyState-COepYjcx.css              0.10 kB │ gzip:   0.11 kB
+dist/assets/SearchResultPage-LpvhmRGx.css        0.37 kB │ gzip:   0.21 kB
+dist/assets/TagManagePage-D82QzbkS.css           0.52 kB │ gzip:   0.27 kB
+dist/assets/NoteListPage-B3Wq9pkc.css            0.75 kB │ gzip:   0.32 kB
+dist/assets/NoteDetailPage-CCVZLVkB.css          0.84 kB │ gzip:   0.37 kB
+dist/assets/Pagination-BONigocd.css              0.99 kB │ gzip:   0.43 kB
+dist/assets/CategoryManagePage-xZsvxePj.css      1.27 kB │ gzip:   0.51 kB
+dist/assets/MarkdownPreview-B5euZMdp.css         1.52 kB │ gzip:   0.50 kB
+dist/assets/NoteEditPage-D3Y5dHLB.css            1.74 kB │ gzip:   0.69 kB
+dist/assets/index-DuF6V0sx.css                 356.97 kB │ gzip:  48.63 kB
+dist/assets/EmptyState-BeFATGBq.js               0.62 kB │ gzip:   0.42 kB
+dist/assets/SearchResultPage-CxTeMe7J.js         2.52 kB │ gzip:   1.48 kB
+dist/assets/Pagination-BoUEMj2z.js               2.68 kB │ gzip:   1.37 kB
+dist/assets/NoteDetailPage-yM4v-ooe.js           2.98 kB │ gzip:   1.56 kB
+dist/assets/NoteListPage-DykibSSO.js             3.23 kB │ gzip:   1.74 kB
+dist/assets/TagManagePage-BiaSoAuP.js            3.38 kB │ gzip:   1.78 kB
+dist/assets/CategoryManagePage-CVRfx4hO.js       3.61 kB │ gzip:   1.95 kB
+dist/assets/NoteEditPage-C0Q7_hJs.js             4.81 kB │ gzip:   2.31 kB
+dist/assets/MarkdownPreview-CCzmSowC.js      1,000.43 kB │ gzip: 332.22 kB
+dist/assets/index-1JMhnIDJ.js                1,209.21 kB │ gzip: 391.90 kB
+
+=== Warnings (non-blocking) ===
+- Some chunks are larger than 500 kB after minification (highlight.js + element-plus)
+  This is expected for a knowledge management app with Markdown rendering.
+  No code-splitting required at MVP stage.
+
+=== Files Created ===
+knowledge-frontend/
+├── index.html
+├── package.json
+├── vite.config.js
+├── .env.development
+├── .env.production
+└── src/
+    ├── main.js
+    ├── App.vue
+    ├── router/
+    │   └── index.js                    (7 routes)
+    ├── api/
+    │   ├── request.js                  (axios + unified error handling)
+    │   ├── note.js                     (getNotes/getNote/createNote/updateNote/deleteNote/searchNotes)
+    │   ├── tag.js                      (getTags/createTag/updateTag/deleteTag)
+    │   └── category.js                 (getCategories/createCategory/updateCategory/deleteCategory)
+    ├── stores/
+    │   ├── noteStore.js                (notes list, filter, sort, pagination)
+    │   ├── tagStore.js                 (tags list)
+    │   └── categoryStore.js            (category tree)
+    ├── composables/
+    │   ├── useMarkdown.js              (marked + markedHighlight + DOMPurify)
+    │   └── usePagination.js            (pagination state)
+    ├── components/
+    │   ├── AppHeader.vue               (logo + search + new note button)
+    │   ├── AppSidebar.vue              (category tree + tag cloud + management links)
+    │   ├── NoteCard.vue                (card with title/summary/tags/actions)
+    │   ├── MarkdownEditor.vue          (textarea wrapper with v-model)
+    │   ├── MarkdownPreview.vue         (marked + hljs + DOMPurify, v-html)
+    │   ├── TagCloud.vue                (weighted font size 12-24px, click filter)
+    │   ├── CategoryTree.vue            (el-tree wrapper)
+    │   ├── TagSelect.vue               (el-select multiple, max 20)
+    │   ├── Pagination.vue              (el-pagination wrapper)
+    │   └── EmptyState.vue              (el-empty + action button)
+    └── pages/
+        ├── NoteListPage.vue            (filter bar + sort + card list + pagination)
+        ├── NoteDetailPage.vue          (meta + markdown preview + actions)
+        ├── NoteEditPage.vue            (title/category/tags + editor + live preview)
+        ├── TagManagePage.vue           (create form + inline-edit table)
+        ├── CategoryManagePage.vue      (tree view + create/edit form)
+        └── SearchResultPage.vue        (search box + keyword-highlighted results)
